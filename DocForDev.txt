@@ -1,0 +1,1 @@
+first while app start the slider code is present in onbording > firstscreenslider.tsx
