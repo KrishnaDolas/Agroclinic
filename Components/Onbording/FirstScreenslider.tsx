@@ -1,30 +1,54 @@
 import React, { useState } from "react";
-import { View, Text, Image, StatusBar } from "react-native";
+import { View, Text, Image, StatusBar, Button } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-const slides = [
-  {
-    id: 1,
-    title: 'Discover Best Places',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: require('./src/assets/onboardScreen1.png')
-  },
-  {
-    id: 2,
-    title: 'Choose A Tasty Dish',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: require('./src/assets/onboardScreen2.png')
-  },
-  {
-    id: 3,
-    title: 'Pick Up The Delivery',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: require('./src/assets/onboardScreen3.png')
-  }
-]
+// Define slide content in both languages
+const slidesData = {
+  english: [
+    {
+      id: 1,
+      title: 'Discover Best Places',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: require('./assets/onboardScreen1.png')
+    },
+    {
+      id: 2,
+      title: 'Choose A Tasty Dish',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: require('./assets/onboardScreen2.png')
+    },
+    {
+      id: 3,
+      title: 'Pick Up The Delivery',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: require('./assets/onboardScreen3.png')
+    }
+  ],
+  marathi: [
+    {
+      id: 1,
+      title: 'सर्वोत्कृष्ट ठिकाणे शोधा',
+      description: 'लोरेम इप्सम डोलर सीट अमेट, कॉनसेक्टेचर अडिपिसिंग एलीट, सेड डो ईयुसमोड टेम्पर इनसिडिडुन्ट उत लॅबोरे एट डोलोरे मॅग्ना आलिक्वा.',
+      image: require('./assets/onboardScreen1.png')
+    },
+    {
+      id: 2,
+      title: 'चवदार डिश निवडा',
+      description: 'लोरेम इप्सम डोलर सीट अमेट, कॉनसेक्टेचर अडिपिसिंग एलीट, सेड डो ईयुसमोड टेम्पर इनसिडिडुन्ट उत लॅबोरे एट डोलोरे मॅग्ना आलिक्वा.',
+      image: require('./assets/onboardScreen2.png')
+    },
+    {
+      id: 3,
+      title: 'वितरण उचला',
+      description: 'लोरेम इप्सम डोलर सीट अमेट, कॉनसेक्टेचर अडिपिसिंग एलीट, सेड डो ईयुसमोड टेम्पर इनसिडिडुन्ट उत लॅबोरे एट डोलोरे मॅग्ना आलिक्वा.',
+      image: require('./assets/onboardScreen3.png')
+    }
+  ]
+};
 
 export default function App() {
   const [showHomePage, setShowHomePage] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<'english' | 'marathi' | null>(null); // Track the selected language
 
   StatusBar.setBarStyle('light-content', true);
   StatusBar.setBackgroundColor('#3498db'); // Replace with your primary color
@@ -42,12 +66,26 @@ export default function App() {
       </View>
     );
   }
-  
+
+  // Show language selection first
+  if (selectedLanguage === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 24, marginBottom: 20 }}>Select Language</Text>
+        <View style={{ marginVertical: 10 }}>
+          <Button title="English" onPress={() => setSelectedLanguage('english')} />
+        </View>
+        <View style={{ marginVertical: 10 }}>
+          <Button title="Marathi" onPress={() => setSelectedLanguage('marathi')} />
+        </View>
+      </View>
+    );
+  }
 
   if (!showHomePage) {
     return (
       <AppIntroSlider
-        data={slides}
+        data={slidesData[selectedLanguage]} // Use selected language slides
         renderItem={({ item }) => {
           return (
             <View style={{
