@@ -1,5 +1,15 @@
 {
-    "welcome": "Welcome to Agro Clinic",
-    "register": "Register"
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to the Home Screen",
+    "profile": "Go to Profile"
+  },
+  "crops": {
+    "title": "Crops",
+    "description": "View the list of crops"
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "This is your profile"
   }
-  
+}

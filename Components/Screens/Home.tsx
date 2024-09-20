@@ -1,68 +1,71 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t } = useTranslation();
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Weather and Location Section */}
       <View style={styles.weatherContainer}>
-        <Text style={styles.location}>Latur, 16 Sep</Text>
-        <Text style={styles.weather}>Partly cloudy • 20°C / 29°C</Text>
-        <Text style={styles.temperature}>21°C</Text>
-        <Text style={styles.sprayCondition}>Spraying condition: Unfavourable</Text>
+        <Text style={styles.location}>{t('home.weatherLocation', { location: 'Latur', date: '16 Sep' })}</Text>
+        <Text style={styles.weather}>{t('home.weatherCondition', { condition: 'Partly cloudy', tempRange: '20°C / 29°C' })}</Text>
+        <Text style={styles.temperature}>{t('home.currentTemperature', { temp: '21°C' })}</Text>
+        <Text style={styles.sprayCondition}>{t('home.sprayCondition', { condition: 'Unfavourable' })}</Text>
       </View>
 
       {/* Heal Your Crop Section */}
       <View style={styles.healContainer}>
-        <Text style={styles.healTitle}>Heal your crop</Text>
+        <Text style={styles.healTitle}>{t('home.healTitle')}</Text>
         <View style={styles.healSteps}>
           <View style={styles.healStep}>
             <Image source={{ uri: 'take_picture_icon_url' }} style={styles.healIcon} />
-            <Text style={styles.stepText}>Take a picture</Text>
+            <Text style={styles.stepText}>{t('home.takePicture')}</Text>
           </View>
           <View style={styles.healStep}>
             <Image source={{ uri: 'see_diagnosis_icon_url' }} style={styles.healIcon} />
-            <Text style={styles.stepText}>See diagnosis</Text>
+            <Text style={styles.stepText}>{t('home.seeDiagnosis')}</Text>
           </View>
           <View style={styles.healStep}>
             <Image source={{ uri: 'get_medicine_icon_url' }} style={styles.healIcon} />
-            <Text style={styles.stepText}>Get medicine</Text>
+            <Text style={styles.stepText}>{t('home.getMedicine')}</Text>
           </View>
         </View>
         <TouchableOpacity style={styles.takePictureButton}>
-          <Text style={styles.takePictureButtonText}>Take a picture</Text>
+          <Text style={styles.takePictureButtonText}>{t('home.takePictureButton')}</Text>
         </TouchableOpacity>
       </View>
 
       {/* Grid Options */}
       <View style={styles.optionsGrid}>
         <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Fertilizer calculator</Text>
+          <Text style={styles.optionText}>{t('home.fertilizerCalculator')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Pests & diseases</Text>
+          <Text style={styles.optionText}>{t('home.pestsDiseases')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Cultivation Tips</Text>
+          <Text style={styles.optionText}>{t('home.cultivationTips')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>Pests and Disease Alert</Text>
+          <Text style={styles.optionText}>{t('home.pestsDiseaseAlert')}</Text>
         </TouchableOpacity>
       </View>
 
       {/* Welcome Section */}
-      <Text style={styles.sectionTitle}>Welcome to AgroClinic</Text>
+      <Text style={styles.sectionTitle}>{t('home.welcomeTitle')}</Text>
 
       {/* Trending Products Section */}
       <View style={styles.trendingSection}>
-        <Text style={styles.trendingTitle}>Trending product 🔥</Text>
+        <Text style={styles.trendingTitle}>{t('home.trendingTitle')}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.productCard}>
             <Image
               source={{ uri: 'https://example.com/product_image_1.jpg' }}
               style={styles.productImage}
             />
-            <Text style={styles.productVideoTime}>00:54 | Pesticides</Text>
+            <Text style={styles.productVideoTime}>00:54 | {t('home.productCategory')}</Text>
             <TouchableOpacity style={styles.playButton}>
               <Text style={styles.playButtonText}>▶</Text>
             </TouchableOpacity>
@@ -72,8 +75,8 @@ const Home = () => {
                 style={styles.productThumbnail}
               />
               <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>Go to product</Text>
-                <Text style={styles.productName}>Super Star</Text>
+                <Text style={styles.productTitle}>{t('home.goToProduct')}</Text>
+                <Text style={styles.productName}>{t('home.productName1')}</Text>
               </View>
               <Text style={styles.arrowText}>→</Text>
             </TouchableOpacity>
@@ -85,7 +88,7 @@ const Home = () => {
               source={{ uri: 'https://example.com/product_image_2.jpg' }}
               style={styles.productImage}
             />
-            <Text style={styles.productVideoTime}>00:54 | Pesticides</Text>
+            <Text style={styles.productVideoTime}>00:54 | {t('home.productCategory')}</Text>
             <TouchableOpacity style={styles.playButton}>
               <Text style={styles.playButtonText}>▶</Text>
             </TouchableOpacity>
@@ -95,8 +98,8 @@ const Home = () => {
                 style={styles.productThumbnail}
               />
               <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>Go to product</Text>
-                <Text style={styles.productName}>Fine 5 Sc</Text>
+                <Text style={styles.productTitle}>{t('home.goToProduct')}</Text>
+                <Text style={styles.productName}>{t('home.productName2')}</Text>
               </View>
               <Text style={styles.arrowText}>→</Text>
             </TouchableOpacity>
@@ -105,7 +108,7 @@ const Home = () => {
       </View>
 
       {/* Footer Section */}
-      <Text style={styles.footerText}>Explore more at AgroClinic</Text>
+      <Text style={styles.footerText}>{t('home.exploreMore')}</Text>
     </ScrollView>
   );
 };
@@ -169,76 +172,72 @@ const styles = StyleSheet.create({
   },
   healStep: {
     alignItems: 'center',
-    width: '30%',
+    justifyContent: 'center',
   },
   healIcon: {
-    width: 60,
-    height: 60,
-    marginBottom: 10,
+    width: 50,
+    height: 50,
+    marginBottom: 8,
   },
   stepText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#34495e',
+    textAlign: 'center',
   },
   takePictureButton: {
-    backgroundColor: '#3498db',
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: '#ff6347',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 8,
     alignItems: 'center',
   },
   takePictureButtonText: {
     color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '600',
   },
   optionsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginVertical: 20,
+    marginBottom: 20,
   },
   option: {
     backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 15,
+    padding: 15,
     width: '48%',
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    marginBottom: 20,
-    alignItems: 'center',
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#2c3e50',
     textAlign: 'center',
   },
   sectionTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#34495e',
-    marginBottom: 16,
-    textAlign: 'center',
+    color: '#333',
+    marginBottom: 15,
   },
   trendingSection: {
-    marginTop: 20,
+    marginBottom: 20,
   },
   trendingTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#e67e22',
-    marginBottom: 20,
-    textAlign: 'center',
+    marginBottom: 10,
   },
   productCard: {
     backgroundColor: '#fff',
-    borderRadius: 15,
-    padding: 20,
-    marginRight: 20,
-    width: 260,
+    borderRadius: 10,
+    padding: 10,
+    width: 250,
+    marginRight: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -246,60 +245,60 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: 140,
-    borderRadius: 15,
+    height: 150,
+    borderRadius: 10,
     marginBottom: 10,
   },
   productVideoTime: {
     fontSize: 12,
-    color: '#7f8c8d',
+    color: '#666',
+    marginBottom: 5,
   },
   playButton: {
-    position: 'absolute',
-    top: '40%',
-    left: '40%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 15,
-    borderRadius: 50,
+    backgroundColor: '#ff6347',
+    borderRadius: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
   },
   playButtonText: {
     color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 14,
+    fontWeight: '600',
   },
   productLink: {
     flexDirection: 'row',
-    marginTop: 10,
     alignItems: 'center',
+    marginTop: 10,
   },
   productThumbnail: {
     width: 40,
     height: 40,
-    borderRadius: 8,
+    borderRadius: 20,
     marginRight: 10,
   },
   productDetails: {
     flex: 1,
   },
   productTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
-    color: '#2c3e50',
+    color: '#ff6347',
   },
   productName: {
-    fontSize: 12,
-    color: '#7f8c8d',
+    fontSize: 14,
+    fontWeight: '600',
   },
   arrowText: {
-    fontSize: 18,
-    color: '#3498db',
+    fontSize: 20,
+    color: '#ff6347',
   },
   footerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2c3e50',
     textAlign: 'center',
-    color: '#000',
-    marginTop: 30,
-    fontSize: 16,
-    marginBottom: 30,
+    marginBottom: 20,
   },
 });
 

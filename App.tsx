@@ -1,14 +1,18 @@
-import * as React from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-// Importing screens from the screens folder
-import HomeScreen from './Components/Screens/Home';
+import HomeScreen from './Components/Screens/Home'; // Adjust import paths as necessary
 import CropsScreen from './Components/Screens/Crops';
 import ProfileScreen from './Components/Screens/Profile';
 
-const Tab = createBottomTabNavigator();
+type RootStackParamList = {
+  Home: undefined;
+  Crops: undefined;
+  Profile: undefined;
+};
+
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -16,7 +20,7 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName = 'home'; // Default value
+            let iconName: string = '';
 
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
@@ -26,7 +30,6 @@ export default function App() {
               iconName = focused ? 'person' : 'person-outline';
             }
 
-            // Return the icon component
             return <Icon name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: 'tomato',

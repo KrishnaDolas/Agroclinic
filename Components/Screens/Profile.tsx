@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
+  const { t } = useTranslation();
+
   return (
     <ScrollView style={styles.container}>
       {/* Profile Section */}
@@ -11,19 +14,19 @@ const Profile = () => {
           source={{ uri: 'https://example.com/default-profile.png' }} // Replace with actual image
         />
         <View style={styles.accountDetails}>
-          <Text style={styles.accountTitle}>Your account</Text>
-          <Text style={styles.joinText}>Join AgroClinic Community</Text>
+          <Text style={styles.accountTitle}>{t('profile.yourAccount')}</Text>
+          <Text style={styles.joinText}>{t('profile.joinCommunity')}</Text>
           <TouchableOpacity style={styles.signInButton}>
-            <Text style={styles.signInText}>Sign in</Text>
+            <Text style={styles.signInText}>{t('profile.signIn')}</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Survey Banner */}
       <View style={styles.banner}>
-        <Text style={styles.bannerTitle}>Help us make a better app for your farming needs.</Text>
+        <Text style={styles.bannerTitle}>{t('profile.surveyBannerTitle')}</Text>
         <TouchableOpacity style={styles.bannerButton}>
-          <Text style={styles.bannerButtonText}>Take a survey</Text>
+          <Text style={styles.bannerButtonText}>{t('profile.takeSurvey')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -36,12 +39,12 @@ const Profile = () => {
           />
         </View>
         <View style={styles.infoContent}>
-          <Text style={styles.infoTitle}>Grow smart together!</Text>
+          <Text style={styles.infoTitle}>{t('profile.growSmartTitle')}</Text>
           <Text style={styles.infoText}>
-            Share AgroClinic and help farmers solve their plant problems.
+            {t('profile.growSmartDescription')}
           </Text>
           <TouchableOpacity>
-            <Text style={styles.linkText}>Share AgroClinic</Text>
+            <Text style={styles.linkText}>{t('profile.shareAgroClinic')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -55,12 +58,12 @@ const Profile = () => {
           />
         </View>
         <View style={styles.infoContent}>
-          <Text style={styles.infoTitle}>How is your experience with AgroClinic app?</Text>
+          <Text style={styles.infoTitle}>{t('profile.feedbackTitle')}</Text>
           <Text style={styles.infoText}>
-            We’d love to hear your thoughts and suggestions.
+            {t('profile.feedbackDescription')}
           </Text>
           <TouchableOpacity>
-            <Text style={styles.linkText}>Give Feedback</Text>
+            <Text style={styles.linkText}>{t('profile.giveFeedback')}</Text>
           </TouchableOpacity>
         </View>
       </View>
