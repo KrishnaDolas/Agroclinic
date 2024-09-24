@@ -20,15 +20,15 @@ const Home = () => {
         <Text style={styles.healTitle}>{t('home.healTitle')}</Text>
         <View style={styles.healSteps}>
           <View style={styles.healStep}>
-            <Image source={{ uri: 'take_picture_icon_url' }} style={styles.healIcon} />
+            <Image source={{ uri: 'https://example.com/take_picture_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.takePicture')}</Text>
           </View>
           <View style={styles.healStep}>
-            <Image source={{ uri: 'see_diagnosis_icon_url' }} style={styles.healIcon} />
+            <Image source={{ uri: 'https://example.com/see_diagnosis_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.seeDiagnosis')}</Text>
           </View>
           <View style={styles.healStep}>
-            <Image source={{ uri: 'get_medicine_icon_url' }} style={styles.healIcon} />
+            <Image source={{ uri: 'https://example.com/get_medicine_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.getMedicine')}</Text>
           </View>
         </View>
@@ -251,54 +251,48 @@ const styles = StyleSheet.create({
   },
   productVideoTime: {
     fontSize: 12,
-    color: '#666',
-    marginBottom: 5,
+    color: '#888',
   },
   playButton: {
     backgroundColor: '#ff6347',
     borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 20,
-    alignSelf: 'center',
+    padding: 5,
+    marginVertical: 5,
+    alignSelf: 'flex-start',
   },
   playButtonText: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
   },
   productLink: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: 'space-between',
+    padding: 10,
   },
   productThumbnail: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    marginRight: 10,
+    borderRadius: 5,
   },
   productDetails: {
     flex: 1,
+    marginLeft: 10,
   },
   productTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#ff6347',
+    fontWeight: 'bold',
   },
   productName: {
-    fontSize: 14,
-    fontWeight: '600',
+    color: '#555',
   },
   arrowText: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#ff6347',
   },
   footerText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2c3e50',
+    fontSize: 14,
     textAlign: 'center',
-    marginBottom: 20,
+    color: '#666',
+    marginVertical: 20,
   },
 });
 

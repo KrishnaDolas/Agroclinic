@@ -1,41 +1,59 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../Locales/types';
 
-// Define the type for the Root Stack Navigator
-type RootStackParamList = {
-  LanguageSelector: undefined;
-  Home: undefined;
+type LanguageSelectorProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'OnboardingScreen1'>;
 };
 
-type LanguageSelectorScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'LanguageSelector'
->;
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({ navigation }) => {
+  const { i18n, t } = useTranslation();
 
-const LanguageSelector = () => {
-  const { i18n } = useTranslation();
-  const navigation = useNavigation<LanguageSelectorScreenNavigationProp>();
-
-  const selectLanguage = async (language: 'en' | 'mr') => {
-    // Change the language
-    await i18n.changeLanguage(language);
-    // Store the selected language in AsyncStorage
-    await AsyncStorage.setItem('selectedLanguage', language);
-    // Navigate to the home screen using `replace` to prevent going back to the language selector
-    navigation.replace('Home');
+  const selectLanguage = (language: 'en' | 'mr') => {
+    i18n.changeLanguage(language);
+    navigation.navigate('OnboardingScreen1'); // Changed to match the screen name in the Stack
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Select your preferred language:</Text>
-      <Button title="English" onPress={() => selectLanguage('en')} />
-      <Button title="Marathi" onPress={() => selectLanguage('mr')} />
+    <View style={styles.container}>
+      <Text style={styles.title}>{t('select Language')}</Text>
+      <TouchableOpacity style={styles.button} onPress={() => selectLanguage('en')}>
+        <Text style={styles.buttonText}>{t('english')}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => selectLanguage('mr')}>
+        <Text style={styles.buttonText}>{t('marathi')}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textTransform: 'capitalize', // Ensure first letter is capitalized
+  },
+  button: {
+    backgroundColor: '#34A853',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: 200,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    textTransform: 'capitalize', // Ensure first letter is capitalized
+  },
+});
 
 export default LanguageSelector;

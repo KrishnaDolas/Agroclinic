@@ -1,23 +1,25 @@
-import i18n from 'i18next';
+import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as RNLocalize from 'react-native-localize';
-import en from './en.json'; // English translations
-import mr from './mr.json'; // Marathi translations
+import en from './en.json'; // Import the English translations
+import mr from './mr.json'; // Import the Marathi translations
 
-// Get the user's device language
-const locales = RNLocalize.getLocales();
+// Define your language resources
+const resources = {
+  en: { translation: en },
+  mr: { translation: mr },
+};
 
-i18n.use(initReactI18next).init({
-  compatibilityJSON: 'v3',
-  resources: {
-    en: { translation: en },
-    mr: { translation: mr },
-  },
-  lng: locales[0]?.languageTag || 'en', // Use the first locale or fallback to English
-  fallbackLng: 'en', // Fallback to English if the language isn't available
-  interpolation: {
-    escapeValue: false, // React already escapes values
-  },
-});
+i18next
+  .use(initReactI18next)
+  .init({
+    debug: false, // Turn on for development debugging
+    lng: 'en', // Default language set to English
+    fallbackLng: 'en', // Fallback to English if Marathi translation is unavailable
+    compatibilityJSON: 'v3', // For compatibility issues with JSON structure
+    resources, // Add language resources
+    interpolation: {
+      escapeValue: false, // React already handles escaping values
+    },
+  });
 
-export default i18n;
+export default i18next;

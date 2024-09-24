@@ -1,15 +1,38 @@
 {
-  "home": {
-    "title": "होम",
-    "welcome": "होम स्क्रीनवर स्वागत आहे",
-    "profile": "प्रोफाइलला जा"
+  "register": {
+    "title": "नोंदणी करा",
+    "namePlaceholder": "तुमचं नाव भरा",
+    "phonePlaceholder": "तुमचा फोन नंबर भरा",
+    "passwordPlaceholder": "पासवर्ड भरा",
+    "confirmPasswordPlaceholder": "पासवर्डची पुष्टी करा",
+    "registerButton": "नोंदणी करा !"
   },
-  "crops": {
-    "title": "पिके",
-    "description": "पिकांची यादी पहा"
+  "error": {
+    "title": "त्रुटी",
+    "fillFields": "कृपया सर्व क्षेत्रे भरा.",
+    "passwordMismatch": "पासवर्ड जुळत नाहीत."
   },
-  "profile": {
-    "title": "प्रोफाइल",
-    "description": "हे तुमचे प्रोफाइल आहे"
-  }
+  "success": {
+    "title": "यश",
+    "registration_successful": "नोंदणी यशस्वी!"
+  },
+  "login": {
+    "title": "लॉगिन करा",
+    "enterPhoneNumber": "फोन नंबर भरा",
+    "enterPassword": "पासवर्ड भरा",
+    "loginButton": "लॉगिन करा",
+    "registerPrompt": "खाते नाही का? आता नोंदणी करा!"
+  },
+ "onboarding": {
+  "discover": "सर्वोत्कृष्ट स्थळे शोधा",
+  "discover_description": "सर्वात चांगल्या स्थळांना शोधा.",
+  "chooseDish": "स्वादिष्ट डिश निवडा",
+  "chooseDish_description": "स्वादिष्ट डिशेसमधून निवडा.",
+  "pickUpDelivery": "डिलिव्हरी घेऊन जा",
+  "pickUpDelivery_description": "आपल्या सोयीप्रमाणे आपली ऑर्डर घ्या.",
+  "next": "पुढे",
+  "skip": "गेलं",
+  "done": "पूर्ण"
+}
+
 }

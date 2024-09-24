@@ -1,106 +1,169 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useTranslation } from 'react-i18next';
 
 // Get device dimensions for responsive design
 const { width: screenWidth } = Dimensions.get('window');
 
+// Sample crop data for different stages
+const cropStages = [
+  {
+    stage: 'Vegetative Stage',
+    icon: 'https://example.com/vegetative-icon.png', // Add an icon for the stage
+    data: [
+      {
+        imgUrl: 'https://example.com/crop-image1.jpg',
+        title: 'Foot and Collar Rot',
+        type: 'Fungus',
+      },
+      {
+        imgUrl: 'https://example.com/crop-image2.jpg',
+        title: 'Soybean Mosaic Virus',
+        type: 'Virus',
+      },
+      {
+        imgUrl: 'https://example.com/crop-image3.jpg',
+        title: 'Bacterial Pustule',
+        type: 'Bacteria',
+      },
+      {
+        imgUrl: 'https://example.com/crop-image4.jpg',
+        title: 'Whiteflies',
+        type: 'Insect',
+      },
+    ],
+  },
+  {
+    stage: 'Flowering Stage',
+    icon: 'https://example.com/flowering-icon.png', // Add an icon for the stage
+    data: [
+      {
+        imgUrl: 'https://example.com/crop-image5.jpg',
+        title: 'Foot and Collar Rot',
+        type: 'Fungus',
+      },
+      {
+        imgUrl: 'https://example.com/crop-image6.jpg',
+        title: 'Rhizoctonia Aerial Blight',
+        type: 'Fungus',
+      },
+      // Add more diseases if needed
+    ],
+  },
+];
+
 const Crops = () => {
   const { t } = useTranslation();
 
-  // Multiple crop data for the carousel
-  const [cropData, setCropData] = useState([
-    {
-      imgUrl: 'https://yt3.ggpht.com/Ojc5MXUJmxAwxtgFGJkgRYDvE6I18ay86xpb-qTZ8r_xjA2579YWvTTD0hVpZAYhVGw8ExMxjw=s48-c-k-c0x00ffffff-no-rj',
-      cropDesc: t('crops.firstCropDesc'), // Localized description
-    },
-    {
-      imgUrl: 'https://example.com/crop-image2.jpg',
-      cropDesc: t('crops.secondCropDesc'), // Localized description
-    },
-    {
-      imgUrl: 'https://example.com/crop-image3.jpg',
-      cropDesc: t('crops.thirdCropDesc'), // Localized description
-    },
-  ]);
-
   return (
-    <View style={styles.container}>
-      {/* Title for the screen */}
-      <Text style={styles.header}>{t('crops.title')}</Text>
-
-      {/* Horizontal ScrollView for carousel */}
-      <ScrollView
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false} // Hide scroll indicator for a cleaner UI
-        contentContainerStyle={styles.scrollViewContainer}>
-        {/* Map through cropData to create each crop item */}
-        {cropData.map((crop, index) => (
-          <View key={index} style={styles.cropItem}>
+    <ScrollView style={styles.container}>
+      {cropStages.map((stage, index) => (
+        <View key={index} style={styles.stageContainer}>
+          {/* Stage header with icon */}
+          <View style={styles.stageHeaderContainer}>
             <FastImage
-              style={styles.image}
-              source={{ uri: crop.imgUrl }}
-              resizeMode={FastImage.resizeMode.cover}
+              style={styles.stageIcon}
+              source={{ uri: stage.icon }}
+              resizeMode={FastImage.resizeMode.contain}
             />
-            <View style={styles.textContainer}>
-              <Text style={styles.description}>{crop.cropDesc}</Text>
-            </View>
+            <Text style={styles.stageHeader}>{stage.stage}</Text>
           </View>
-        ))}
-      </ScrollView>
-    </View>
+
+          {/* Crop cards in a grid */}
+          <FlatList
+            data={stage.data}
+            numColumns={2} // Display in two columns
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.card}>
+                <FastImage
+                  style={styles.image}
+                  source={{ uri: item.imgUrl }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+                <Text style={styles.type}>{item.type}</Text>
+                <Text style={styles.title}>{item.title}</Text>
+              </View>
+            )}
+          />
+
+          {/* See More button */}
+          <TouchableOpacity style={styles.seeMoreButton}>
+            <Text style={styles.seeMoreText}>{t('See More')}</Text>
+          </TouchableOpacity>
+        </View>
+      ))}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f4f4f9', // Light background for the screen
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 30,
+    backgroundColor: '#f4f4f9',
+    paddingHorizontal: 20,
   },
-  header: {
-    fontSize: 24,
+  stageContainer: {
+    marginBottom: 20,
+  },
+  stageHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  stageIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  stageHeader: {
+    fontSize: 20,
     fontWeight: '600',
     color: '#1a1a2e',
-    marginBottom: 20, // Space between header and carousel
   },
-  scrollViewContainer: {
-    paddingHorizontal: 10,
-  },
-  cropItem: {
-    width: screenWidth * 0.8, // 80% of screen width for each item
-    marginHorizontal: 15,
+  card: {
+    flex: 1,
+    margin: 10,
     backgroundColor: '#ffffff',
     borderRadius: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 5, // Shadow on Android
+    elevation: 5,
     overflow: 'hidden',
+    alignItems: 'center',
   },
   image: {
     width: '100%',
-    height: 200,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    height: 120,
   },
-  textContainer: {
-    padding: 15, // Padding for text
-    backgroundColor: '#fff',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-  },
-  description: {
-    fontSize: 16,
+  type: {
+    fontSize: 14,
     fontWeight: '500',
     color: '#4f4f4f',
+    marginTop: 8,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
     textAlign: 'center',
-    lineHeight: 22, // Improve text readability
+    marginVertical: 5,
+  },
+  seeMoreButton: {
+    marginTop: 10,
+    alignSelf: 'center',
+    backgroundColor: '#007BFF', // Blue background for button
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 25,
+  },
+  seeMoreText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

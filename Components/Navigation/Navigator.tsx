@@ -1,43 +1,38 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import LanguageSelector from '../Onbording/LanguageSelector'; // Adjust the path as necessary
-import Home from '../Screens/Home'; // Home screen component
-import Crops from '../Screens/Crops'; // Crops screen component
-import Profile from '../Screens/Profile'; // Profile screen component
+import Icon from 'react-native-vector-icons/Ionicons';
+import HomeScreen from '../Screens/Home';
+import CropsScreen from '../Screens/Crops';
+import ProfileScreen from '../Screens/Profile';
 
-// Create both Stack and Tab Navigators
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Tab Navigator for Home, Crops, Profile
-const TabNavigator = () => {
+const HomeTabs = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} options={{ title: 'Home' }} />
-      <Tab.Screen name="Crops" component={Crops} options={{ title: 'Crops' }} />
-      <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName = '';
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Crops') {
+            iconName = focused ? 'leaf' : 'leaf-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Crops" component={CropsScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
-// Stack Navigator for Language Selector and Tab Navigation
-const Navigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="LanguageSelector"
-        component={LanguageSelector}
-        options={{ headerShown: false }}
-      />
-      {/* After selecting the language, load the Tab Navigator */}
-      <Stack.Screen
-        name="Main"
-        component={TabNavigator}
-        options={{ headerShown: false }} // Hide the header for the Tab Navigator
-      />
-    </Stack.Navigator>
-  );
-};
-
-export default Navigator;
+export default HomeTabs;

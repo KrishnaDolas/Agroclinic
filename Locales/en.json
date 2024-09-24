@@ -1,15 +1,38 @@
 {
-  "home": {
-    "title": "Home",
-    "welcome": "Welcome to the Home Screen",
-    "profile": "Go to Profile"
+  "register": {
+    "title": "Register",
+    "namePlaceholder": "Enter Your Name",
+    "phonePlaceholder": "Enter Your Phone Number",
+    "passwordPlaceholder": "Enter Password",
+    "confirmPasswordPlaceholder": "Confirm Your Password",
+    "registerButton": "Register Now !"
   },
-  "crops": {
-    "title": "Crops",
-    "description": "View the list of crops"
+  "error": {
+    "title": "Error",
+    "fillFields": "Please fill in all fields.",
+    "passwordMismatch": "Passwords do not match."
   },
-  "profile": {
-    "title": "Profile",
-    "description": "This is your profile"
-  }
+  "success": {
+    "title": "Success",
+    "registration_successful": "Registration successful!"
+  },
+  "login": {
+    "title": "Login",
+    "enterPhoneNumber": "Enter Phone Number",
+    "enterPassword": "Enter Password",
+    "loginButton": "Login",
+    "registerPrompt": "Don't have an account? Register Now!"
+  },
+  "onboarding": {
+  "discover": "Discover Best Places",
+  "discover_description": "Find the best spots to explore.",
+  "chooseDish": "Choose A Tasty Dish",
+  "chooseDish_description": "Select from a variety of delicious dishes.",
+  "pickUpDelivery": "Pick Up The Delivery",
+  "pickUpDelivery_description": "Receive your order at your convenience.",
+  "next": "Next",
+  "skip": "Skip",
+  "done": "Done"
+}
+
 }
