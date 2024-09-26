@@ -1,19 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Locandtemp from '../MiniComponents/Locandtemp'; // Ensure correct import path
 
 const Home = () => {
   const { t } = useTranslation();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Weather and Location Section */}
-      <View style={styles.weatherContainer}>
-        <Text style={styles.location}>{t('home.weatherLocation', { location: 'Latur', date: '16 Sep' })}</Text>
-        <Text style={styles.weather}>{t('home.weatherCondition', { condition: 'Partly cloudy', tempRange: '20°C / 29°C' })}</Text>
-        <Text style={styles.temperature}>{t('home.currentTemperature', { temp: '21°C' })}</Text>
-        <Text style={styles.sprayCondition}>{t('home.sprayCondition', { condition: 'Unfavourable' })}</Text>
-      </View>
+      {/* LocAndTemp Component - Weather and Location Section */}
+      <Locandtemp />
 
       {/* Heal Your Crop Section */}
       <View style={styles.healContainer}>
@@ -60,6 +56,7 @@ const Home = () => {
       <View style={styles.trendingSection}>
         <Text style={styles.trendingTitle}>{t('home.trendingTitle')}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {/* First Product Card */}
           <View style={styles.productCard}>
             <Image
               source={{ uri: 'https://example.com/product_image_1.jpg' }}
@@ -82,7 +79,7 @@ const Home = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Additional product card */}
+          {/* Second Product Card */}
           <View style={styles.productCard}>
             <Image
               source={{ uri: 'https://example.com/product_image_2.jpg' }}
@@ -116,182 +113,143 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 20,
-    backgroundColor: '#f4f6f8',
-  },
-  weatherContainer: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  location: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  weather: {
-    color: '#666',
-    marginVertical: 4,
-  },
-  temperature: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ff6347',
-  },
-  sprayCondition: {
-    color: '#e74c3c',
-    fontWeight: '600',
-    marginTop: 8,
+    padding: 10,
+    paddingTop: 20,
   },
   healContainer: {
-    padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
     marginBottom: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    elevation: 3,
   },
   healTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#2c3e50',
-    marginBottom: 20,
+    marginBottom: 15,
+    textAlign: 'center',
   },
   healSteps: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: 15,
   },
   healStep: {
     alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    marginHorizontal: 10,
   },
   healIcon: {
     width: 50,
     height: 50,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   stepText: {
     fontSize: 14,
-    fontWeight: '600',
     textAlign: 'center',
   },
   takePictureButton: {
     backgroundColor: '#ff6347',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
+    padding: 10,
+    borderRadius: 10,
     alignItems: 'center',
+    marginTop: 10,
   },
   takePictureButtonText: {
     color: '#fff',
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   optionsGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 20,
   },
   option: {
-    backgroundColor: '#fff',
-    padding: 15,
-    width: '48%',
+    backgroundColor: '#2ecc71',
+    padding: 10,
     borderRadius: 10,
     alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    width: '45%',
   },
   optionText: {
-    fontSize: 14,
-    fontWeight: '600',
+    color: '#fff',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
-  },
-  trendingSection: {
     marginBottom: 20,
   },
+  trendingSection: {
+    marginBottom: 30,
+  },
   trendingTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#34495e',
     marginBottom: 10,
   },
   productCard: {
-    backgroundColor: '#fff',
+    width: 240,
+    marginRight: 15,
     borderRadius: 10,
-    padding: 10,
-    width: 250,
-    marginRight: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    backgroundColor: '#fff',
+    elevation: 3,
   },
   productImage: {
     width: '100%',
     height: 150,
-    borderRadius: 10,
-    marginBottom: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   productVideoTime: {
+    marginTop: 5,
     fontSize: 12,
-    color: '#888',
+    color: '#7f8c8d',
+    textAlign: 'center',
   },
   playButton: {
-    backgroundColor: '#ff6347',
-    borderRadius: 20,
-    padding: 5,
-    marginVertical: 5,
-    alignSelf: 'flex-start',
+    position: 'absolute',
+    top: '40%',
+    left: '45%',
   },
   playButtonText: {
-    color: '#fff',
+    fontSize: 20,
+    color: '#ff6347',
   },
   productLink: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     padding: 10,
   },
   productThumbnail: {
     width: 40,
     height: 40,
-    borderRadius: 5,
+    borderRadius: 20,
   },
   productDetails: {
     flex: 1,
     marginLeft: 10,
   },
   productTitle: {
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#2c3e50',
   },
   productName: {
-    color: '#555',
+    fontSize: 12,
+    color: '#7f8c8d',
   },
   arrowText: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#ff6347',
   },
   footerText: {
-    fontSize: 14,
+    fontSize: 16,
+    color: '#2c3e50',
     textAlign: 'center',
-    color: '#666',
     marginVertical: 20,
   },
 });

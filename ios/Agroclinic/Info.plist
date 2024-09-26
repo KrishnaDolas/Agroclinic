@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>We need your location to show local weather data</string>
 	<key>CFBundleDisplayName</key>
 	<string>Agroclinic</string>
 	<key>CFBundleExecutable</key>
