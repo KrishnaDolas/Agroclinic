@@ -6,6 +6,8 @@
 	<string>en</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 <string>We need your location to show local weather data</string>
+<key>NSCameraUsageDescription</key>
+<string>We need access to your camera to take pictures of your crops.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Agroclinic</string>
 	<key>CFBundleExecutable</key>

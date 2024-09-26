@@ -1,10 +1,71 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  TouchableOpacity, 
+  ScrollView, 
+  Alert, 
+  PermissionsAndroid, 
+  Platform 
+} from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Locandtemp from '../MiniComponents/Locandtemp'; // Ensure correct import path
+import { launchCamera, CameraOptions, CameraType } from 'react-native-image-picker';
 
 const Home = () => {
   const { t } = useTranslation();
+  const [imageUri, setImageUri] = useState<string | null>(null); // Explicit type for imageUri
+
+  // Function to request camera permissions
+  const requestCameraPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: t('home.cameraPermissionTitle'),
+            message: t('home.cameraPermissionMessage'),
+            buttonNeutral: t('home.cameraPermissionAskLater'),
+            buttonNegative: t('home.cameraPermissionCancel'),
+            buttonPositive: t('home.cameraPermissionOk'),
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } catch (err) {
+        console.warn(err);
+        return false;
+      }
+    } else {
+      // On iOS, camera permission should already be handled in Info.plist
+      return true;
+    }
+  };
+
+  const openCamera = async () => {
+    const hasPermission = await requestCameraPermission();
+    if (!hasPermission) {
+      Alert.alert(t('home.cameraPermissionDenied'));
+      return;
+    }
+
+    const options: CameraOptions = {
+      mediaType: 'photo',
+      cameraType: 'back' as CameraType, // Correct type for cameraType
+    };
+
+    launchCamera(options, response => {
+      if (response.didCancel) {
+        Alert.alert(t('home.cameraCancel'));
+      } else if (response.errorCode) {
+        Alert.alert(t('home.cameraError'), response.errorMessage || '');
+      } else if (response.assets && response.assets.length > 0) {
+        const { uri } = response.assets[0];
+        setImageUri(uri || null); // Ensure uri is defined
+      }
+    });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -15,20 +76,30 @@ const Home = () => {
       <View style={styles.healContainer}>
         <Text style={styles.healTitle}>{t('home.healTitle')}</Text>
         <View style={styles.healSteps}>
+          {/* Take Picture */}
           <View style={styles.healStep}>
             <Image source={{ uri: 'https://example.com/take_picture_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.takePicture')}</Text>
           </View>
+          {/* Diagnosis */}
           <View style={styles.healStep}>
             <Image source={{ uri: 'https://example.com/see_diagnosis_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.seeDiagnosis')}</Text>
           </View>
+          {/* Medicine */}
           <View style={styles.healStep}>
             <Image source={{ uri: 'https://example.com/get_medicine_icon.png' }} style={styles.healIcon} />
             <Text style={styles.stepText}>{t('home.getMedicine')}</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.takePictureButton}>
+
+        {/* Display the selected image */}
+        {imageUri && (
+          <Image source={{ uri: imageUri }} style={styles.selectedImage} />
+        )}
+
+        {/* Take Picture Button */}
+        <TouchableOpacity style={styles.takePictureButton} onPress={openCamera}>
           <Text style={styles.takePictureButtonText}>{t('home.takePictureButton')}</Text>
         </TouchableOpacity>
       </View>
@@ -161,6 +232,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  selectedImage: {
+    width: '100%',
+    height: 200,
+    marginTop: 15,
+  },
   optionsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -181,44 +257,48 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  trendingSection: {
-    marginBottom: 30,
-  },
-  trendingTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: '#34495e',
     marginBottom: 10,
   },
+  trendingSection: {
+    marginBottom: 20,
+  },
+  trendingTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   productCard: {
-    width: 240,
-    marginRight: 15,
-    borderRadius: 10,
+    width: 180,
+    marginRight: 10,
     backgroundColor: '#fff',
+    borderRadius: 10,
     elevation: 3,
+    paddingBottom: 10,
   },
   productImage: {
     width: '100%',
-    height: 150,
+    height: 100,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   productVideoTime: {
-    marginTop: 5,
-    fontSize: 12,
-    color: '#7f8c8d',
-    textAlign: 'center',
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    color: '#fff',
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 5,
   },
   playButton: {
     position: 'absolute',
-    top: '40%',
-    left: '45%',
+    bottom: 10,
+    right: 10,
   },
   playButtonText: {
+    color: '#fff',
     fontSize: 20,
-    color: '#ff6347',
   },
   productLink: {
     flexDirection: 'row',
@@ -229,28 +309,29 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
+    marginRight: 10,
   },
   productDetails: {
     flex: 1,
-    marginLeft: 10,
   },
   productTitle: {
     fontSize: 14,
-    color: '#2c3e50',
+    fontWeight: 'bold',
   },
   productName: {
     fontSize: 12,
     color: '#7f8c8d',
   },
   arrowText: {
-    fontSize: 20,
-    color: '#ff6347',
+    fontSize: 18,
+    color: '#e74c3c',
   },
   footerText: {
     fontSize: 16,
-    color: '#2c3e50',
+    fontWeight: 'bold',
+    color: '#3498db',
     textAlign: 'center',
-    marginVertical: 20,
+    marginBottom: 10,
   },
 });
 
