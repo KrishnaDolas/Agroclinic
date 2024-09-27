@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  Image, 
-  TouchableOpacity, 
-  ScrollView, 
-  Alert, 
-  PermissionsAndroid, 
-  Platform 
+import React, { useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Locandtemp from '../MiniComponents/Locandtemp'; // Ensure correct import path
-import { launchCamera, CameraOptions, CameraType } from 'react-native-image-picker';
+import {
+  launchCamera,
+  CameraOptions,
+  CameraType,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../Locales/types';
+
+// Explicit type for navigation
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const Home = () => {
+  const navigation = useNavigation<NavigationProp>(); // Ensure type safety
   const { t } = useTranslation();
   const [imageUri, setImageUri] = useState<string | null>(null); // Explicit type for imageUri
 
   // Function to request camera permissions
-  const requestCameraPermission = async () => {
+  const requestCameraPermission = useCallback(async () => {
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
@@ -30,7 +43,7 @@ const Home = () => {
             buttonNeutral: t('home.cameraPermissionAskLater'),
             buttonNegative: t('home.cameraPermissionCancel'),
             buttonPositive: t('home.cameraPermissionOk'),
-          }
+          },
         );
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
@@ -41,9 +54,10 @@ const Home = () => {
       // On iOS, camera permission should already be handled in Info.plist
       return true;
     }
-  };
+  }, [t]);
 
-  const openCamera = async () => {
+  // Camera launch handler
+  const openCamera = useCallback(async () => {
     const hasPermission = await requestCameraPermission();
     if (!hasPermission) {
       Alert.alert(t('home.cameraPermissionDenied'));
@@ -55,7 +69,7 @@ const Home = () => {
       cameraType: 'back' as CameraType, // Correct type for cameraType
     };
 
-    launchCamera(options, response => {
+    launchCamera(options, (response: ImagePickerResponse) => {
       if (response.didCancel) {
         Alert.alert(t('home.cameraCancel'));
       } else if (response.errorCode) {
@@ -65,7 +79,7 @@ const Home = () => {
         setImageUri(uri || null); // Ensure uri is defined
       }
     });
-  };
+  }, [t, requestCameraPermission]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -78,17 +92,32 @@ const Home = () => {
         <View style={styles.healSteps}>
           {/* Take Picture */}
           <View style={styles.healStep}>
-            <Image source={{ uri: 'https://example.com/take_picture_icon.png' }} style={styles.healIcon} />
+            <Icon
+              name="camera"
+              size={30}
+              color="#2c3e50"
+              style={styles.healIcon}
+            />
             <Text style={styles.stepText}>{t('home.takePicture')}</Text>
           </View>
           {/* Diagnosis */}
           <View style={styles.healStep}>
-            <Image source={{ uri: 'https://example.com/see_diagnosis_icon.png' }} style={styles.healIcon} />
+            <Icon
+              name="heartbeat"
+              size={30}
+              color="#2c3e50"
+              style={styles.healIcon}
+            />
             <Text style={styles.stepText}>{t('home.seeDiagnosis')}</Text>
           </View>
           {/* Medicine */}
           <View style={styles.healStep}>
-            <Image source={{ uri: 'https://example.com/get_medicine_icon.png' }} style={styles.healIcon} />
+            <Icon
+              name="medkit"
+              size={30}
+              color="#2c3e50"
+              style={styles.healIcon}
+            />
             <Text style={styles.stepText}>{t('home.getMedicine')}</Text>
           </View>
         </View>
@@ -100,23 +129,35 @@ const Home = () => {
 
         {/* Take Picture Button */}
         <TouchableOpacity style={styles.takePictureButton} onPress={openCamera}>
-          <Text style={styles.takePictureButtonText}>{t('home.takePictureButton')}</Text>
+          <Text style={styles.takePictureButtonText}>
+            {t('home.takePictureButton')}
+          </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Grid Options */}
-      <View style={styles.optionsGrid}>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>{t('home.fertilizerCalculator')}</Text>
+      <View style={styles.gridContainer}>
+        {/* Fertilizer Calculator */}
+        <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate('FertilizerCalculator')}>
+          <Icon name="calculator" size={30} color="#fff" />
+          <Text style={styles.gridText}>{t('FertilizerCalculator')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>{t('home.pestsDiseases')}</Text>
+
+        {/* Pests & Diseases */}
+        <TouchableOpacity style={styles.gridItem}>
+          <Icon name="bug" size={30} color="#fff" />
+          <Text style={styles.gridText}>{t('home.pestsDiseases', 'Pests & Diseases')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>{t('home.cultivationTips')}</Text>
+
+        {/* Cultivation Tips */}
+        <TouchableOpacity style={styles.gridItem}>
+          <Icon name="leaf" size={30} color="#fff" />
+          <Text style={styles.gridText}>{t('home.cultivationTips', 'Cultivation Tips')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <Text style={styles.optionText}>{t('home.pestsDiseaseAlert')}</Text>
+
+        {/* Pests & Disease Alert */}
+        <TouchableOpacity style={styles.gridItem}>
+          <Icon name="exclamation-triangle" size={30} color="#fff" />
+          <Text style={styles.gridText}>{t('home.pestsDiseaseAlert', 'Pests & Disease Alert')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -127,51 +168,8 @@ const Home = () => {
       <View style={styles.trendingSection}>
         <Text style={styles.trendingTitle}>{t('home.trendingTitle')}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {/* First Product Card */}
-          <View style={styles.productCard}>
-            <Image
-              source={{ uri: 'https://example.com/product_image_1.jpg' }}
-              style={styles.productImage}
-            />
-            <Text style={styles.productVideoTime}>00:54 | {t('home.productCategory')}</Text>
-            <TouchableOpacity style={styles.playButton}>
-              <Text style={styles.playButtonText}>▶</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.productLink}>
-              <Image
-                source={{ uri: 'https://example.com/product_thumbnail_1.jpg' }}
-                style={styles.productThumbnail}
-              />
-              <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>{t('home.goToProduct')}</Text>
-                <Text style={styles.productName}>{t('home.productName1')}</Text>
-              </View>
-              <Text style={styles.arrowText}>→</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Second Product Card */}
-          <View style={styles.productCard}>
-            <Image
-              source={{ uri: 'https://example.com/product_image_2.jpg' }}
-              style={styles.productImage}
-            />
-            <Text style={styles.productVideoTime}>00:54 | {t('home.productCategory')}</Text>
-            <TouchableOpacity style={styles.playButton}>
-              <Text style={styles.playButtonText}>▶</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.productLink}>
-              <Image
-                source={{ uri: 'https://example.com/product_thumbnail_2.jpg' }}
-                style={styles.productThumbnail}
-              />
-              <View style={styles.productDetails}>
-                <Text style={styles.productTitle}>{t('home.goToProduct')}</Text>
-                <Text style={styles.productName}>{t('home.productName2')}</Text>
-              </View>
-              <Text style={styles.arrowText}>→</Text>
-            </TouchableOpacity>
-          </View>
+          {/* Product Cards */}
+          {/* Repeated product cards would go here */}
         </ScrollView>
       </View>
 
@@ -208,14 +206,13 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   healStep: {
+    flexDirection: 'column', // If you want the icon above the text
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 10,
   },
   healIcon: {
-    width: 50,
-    height: 50,
-    marginBottom: 10,
+    marginBottom: 10, // Add spacing between icon and text
   },
   stepText: {
     fontSize: 14,
@@ -233,72 +230,76 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   selectedImage: {
-    width: '100%',
-    height: 200,
-    marginTop: 15,
-  },
-  optionsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  option: {
-    backgroundColor: '#2ecc71',
-    padding: 10,
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    alignSelf: 'center',
     borderRadius: 10,
-    alignItems: 'center',
-    width: '45%',
   },
-  optionText: {
+  gridContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  gridItem: {
+    width: '48%',
+    backgroundColor: '#3498db',
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 5,
+    alignItems: 'center',
+  },
+  gridText: {
     color: '#fff',
-    fontWeight: 'bold',
     textAlign: 'center',
+    marginTop: 5,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#34495e',
-    marginBottom: 10,
+    marginVertical: 20,
+    textAlign: 'center',
   },
   trendingSection: {
     marginBottom: 20,
   },
   trendingTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   productCard: {
-    width: 180,
+    width: 150,
     marginRight: 10,
-    backgroundColor: '#fff',
     borderRadius: 10,
-    elevation: 3,
-    paddingBottom: 10,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    elevation: 2,
   },
   productImage: {
     width: '100%',
     height: 100,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
   },
   productVideoTime: {
     position: 'absolute',
-    bottom: 10,
-    left: 10,
+    bottom: 5,
+    left: 5,
+    backgroundColor: '#000',
     color: '#fff',
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    paddingHorizontal: 5,
+    padding: 5,
+    borderRadius: 5,
   },
   playButton: {
     position: 'absolute',
-    bottom: 10,
-    right: 10,
+    top: '40%',
+    left: '40%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 10,
+    borderRadius: 50,
   },
   playButtonText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 18,
   },
   productLink: {
     flexDirection: 'row',
@@ -306,32 +307,27 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   productThumbnail: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 5,
   },
   productDetails: {
+    marginLeft: 10,
     flex: 1,
   },
   productTitle: {
-    fontSize: 14,
     fontWeight: 'bold',
   },
   productName: {
-    fontSize: 12,
     color: '#7f8c8d',
   },
   arrowText: {
     fontSize: 18,
-    color: '#e74c3c',
+    marginLeft: 5,
   },
   footerText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#3498db',
     textAlign: 'center',
-    marginBottom: 10,
+    marginVertical: 20,
   },
 });
 

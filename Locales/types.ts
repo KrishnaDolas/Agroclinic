@@ -7,4 +7,5 @@ export type RootStackParamList = {
   Crops: undefined;
   Profile: undefined;
   HomeTabs: undefined;
+  FertilizerCalculator: undefined;
 };
