@@ -7,6 +7,9 @@ import HomeTabs from './Components/Navigation/Navigator'; // Assuming this handl
 import OnboardingScreens from './Components/Onbording/OnboardingScreen1';
 import RegisterScreen from './Components/LoginAndSignup/RegisterScreen';
 import FertilizerCalculator from './Components/MiniComponents/FertilizerCalculator'; // Import the FertilizerCalculator
+import Petsanddiseases from './Components/MiniComponents/Petsanddiseases';
+import Cultivation from './Components/MiniComponents/Cultivation';
+import Petsanddiseasesalert from './Components/MiniComponents/Petsanddiseasesalert';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +46,21 @@ export default function App() {
           name="FertilizerCalculator" 
           component={FertilizerCalculator} 
           options={{ title: 'Fertilizer Calculator' }} 
+        />
+        <Stack.Screen 
+          name="Petsanddiseases" 
+          component={Petsanddiseases} 
+          options={{ title: 'Pets and Diseases' }} 
+        />
+        <Stack.Screen 
+          name="Cultivation" 
+          component={Cultivation} 
+          options={{ title: 'Cultivation Tips' }} 
+        />
+        <Stack.Screen 
+          name="Petsanddiseasesalert" 
+          component={Petsanddiseasesalert} 
+          options={{ title: 'Pets And Diseases Alert' }} 
         />
       </Stack.Navigator>
     </NavigationContainer>

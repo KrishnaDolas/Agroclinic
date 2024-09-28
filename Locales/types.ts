@@ -8,4 +8,7 @@ export type RootStackParamList = {
   Profile: undefined;
   HomeTabs: undefined;
   FertilizerCalculator: undefined;
+  Petsanddiseases: undefined;
+  Cultivation: undefined;
+  Petsanddiseasesalert: undefined;
 };

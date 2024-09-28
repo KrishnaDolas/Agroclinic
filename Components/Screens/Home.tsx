@@ -143,19 +143,19 @@ const Home = () => {
         </TouchableOpacity>
 
         {/* Pests & Diseases */}
-        <TouchableOpacity style={styles.gridItem}>
+        <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate('Petsanddiseases')}>
           <Icon name="bug" size={30} color="#fff" />
           <Text style={styles.gridText}>{t('home.pestsDiseases', 'Pests & Diseases')}</Text>
         </TouchableOpacity>
 
         {/* Cultivation Tips */}
-        <TouchableOpacity style={styles.gridItem}>
+        <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate('Cultivation')}>
           <Icon name="leaf" size={30} color="#fff" />
           <Text style={styles.gridText}>{t('home.cultivationTips', 'Cultivation Tips')}</Text>
         </TouchableOpacity>
 
         {/* Pests & Disease Alert */}
-        <TouchableOpacity style={styles.gridItem}>
+        <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate('Petsanddiseasesalert')}>
           <Icon name="exclamation-triangle" size={30} color="#fff" />
           <Text style={styles.gridText}>{t('home.pestsDiseaseAlert', 'Pests & Disease Alert')}</Text>
         </TouchableOpacity>
