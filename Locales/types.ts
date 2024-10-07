@@ -11,4 +11,6 @@ export type RootStackParamList = {
   Petsanddiseases: undefined;
   Cultivation: undefined;
   Petsanddiseasesalert: undefined;
+  Firstnoniptable: undefined;
+  Noniplist : undefined;
 };

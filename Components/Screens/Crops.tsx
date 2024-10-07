@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, FlatList, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useTranslation } from 'react-i18next';
+import { useNavigation, NavigationProp } from '@react-navigation/native'; // Import types for navigation
+import { RootStackParamList } from '../../Locales/types';  // Import your RootStackParamList
 
-// Get device dimensions for responsive design
 const { width: screenWidth } = Dimensions.get('window');
 
-// Sample crop data for different stages
+// Define CropItem interface
+interface CropItem {
+  imgUrl: string;
+  title: string;
+  type: string;
+}
+
+// Define the type for your navigation prop
+type CropsNavigationProp = NavigationProp<RootStackParamList, 'Crops'>;
+
+// Sample crop data
 const cropStages = [
   {
     stage: 'Vegetative Stage',
-    icon: 'https://example.com/vegetative-icon.png', // Add an icon for the stage
+    icon: 'https://example.com/vegetative-icon.png',
     data: [
       {
         imgUrl: 'https://example.com/crop-image1.jpg',
@@ -22,45 +33,40 @@ const cropStages = [
         title: 'Soybean Mosaic Virus',
         type: 'Virus',
       },
-      {
-        imgUrl: 'https://example.com/crop-image3.jpg',
-        title: 'Bacterial Pustule',
-        type: 'Bacteria',
-      },
-      {
-        imgUrl: 'https://example.com/crop-image4.jpg',
-        title: 'Whiteflies',
-        type: 'Insect',
-      },
+      // Add more crops here
     ],
   },
   {
     stage: 'Flowering Stage',
-    icon: 'https://example.com/flowering-icon.png', // Add an icon for the stage
+    icon: 'https://example.com/flowering-icon.png',
     data: [
       {
-        imgUrl: 'https://example.com/crop-image5.jpg',
-        title: 'Foot and Collar Rot',
-        type: 'Fungus',
-      },
-      {
-        imgUrl: 'https://example.com/crop-image6.jpg',
+        imgUrl: 'https://example.com/crop-image3.jpg',
         title: 'Rhizoctonia Aerial Blight',
         type: 'Fungus',
       },
-      // Add more diseases if needed
+      // Add more crops here
     ],
   },
 ];
 
 const Crops = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation<CropsNavigationProp>(); // Correctly type navigation
+
+  const handleItemPress = (item: CropItem) => {
+    if (item.title === 'Foot and Collar Rot') {
+      // Navigate to Noniplist screen
+      navigation.navigate('Noniplist'); // Ensure this matches your route names
+    }
+    // Add more conditions if needed for other diseases
+  };
 
   return (
     <ScrollView style={styles.container}>
       {cropStages.map((stage, index) => (
         <View key={index} style={styles.stageContainer}>
-          {/* Stage header with icon */}
+          {/* Stage Header */}
           <View style={styles.stageHeaderContainer}>
             <FastImage
               style={styles.stageIcon}
@@ -70,21 +76,23 @@ const Crops = () => {
             <Text style={styles.stageHeader}>{stage.stage}</Text>
           </View>
 
-          {/* Crop cards in a grid */}
+          {/* Crop Cards */}
           <FlatList
             data={stage.data}
-            numColumns={2} // Display in two columns
+            numColumns={2}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View style={styles.card}>
-                <FastImage
-                  style={styles.image}
-                  source={{ uri: item.imgUrl }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
-                <Text style={styles.type}>{item.type}</Text>
-                <Text style={styles.title}>{item.title}</Text>
-              </View>
+              <TouchableOpacity onPress={() => handleItemPress(item)}>
+                <View style={styles.card}>
+                  <FastImage
+                    style={styles.image}
+                    source={{ uri: item.imgUrl }}
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                  <Text style={styles.type}>{item.type}</Text>
+                  <Text style={styles.title}>{item.title}</Text>
+                </View>
+              </TouchableOpacity>
             )}
           />
 
@@ -155,7 +163,7 @@ const styles = StyleSheet.create({
   seeMoreButton: {
     marginTop: 10,
     alignSelf: 'center',
-    backgroundColor: '#007BFF', // Blue background for button
+    backgroundColor: '#007BFF',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 25,

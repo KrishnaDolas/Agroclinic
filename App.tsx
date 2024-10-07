@@ -10,6 +10,8 @@ import FertilizerCalculator from './Components/MiniComponents/FertilizerCalculat
 import Petsanddiseases from './Components/MiniComponents/Petsanddiseases';
 import Cultivation from './Components/MiniComponents/Cultivation';
 import Petsanddiseasesalert from './Components/MiniComponents/Petsanddiseasesalert';
+import Firstnoniptable from './Components/NoninputTable/Firstnoniptable';
+import Noniplist from './Components/NoninputTable/Noniplist';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +63,16 @@ export default function App() {
           name="Petsanddiseasesalert" 
           component={Petsanddiseasesalert} 
           options={{ title: 'Pets And Diseases Alert' }} 
+        />
+        <Stack.Screen 
+          name="Firstnoniptable" 
+          component={Firstnoniptable} 
+          options={{ title: 'Firstnoniptable' }} 
+        />
+         <Stack.Screen 
+          name="Noniplist" 
+          component={Noniplist} 
+          options={{ title: 'Noniplist' }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
