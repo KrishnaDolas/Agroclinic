@@ -23,7 +23,7 @@ const Noniplist = () => {
           </Card>
         </TouchableOpacity>
 
-        <Card style={styles.card}>
+        <Card style={styles.card} onPress={() => navigation.navigate('Secondnoniptable')}>
           <Text style={styles.cardText}>
             प्रकार 2 - अडसाली ऊस लागवडीसाठी लागणारी रासायनीक खते (यूरिया + 10:26:26 ग्रेड )
           </Text>

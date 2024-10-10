@@ -12,6 +12,7 @@ import Cultivation from './Components/MiniComponents/Cultivation';
 import Petsanddiseasesalert from './Components/MiniComponents/Petsanddiseasesalert';
 import Firstnoniptable from './Components/NoninputTable/Firstnoniptable';
 import Noniplist from './Components/NoninputTable/Noniplist';
+import Secondnoniptable from './Components/NoninputTable/Secondnoniptable';
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,11 @@ export default function App() {
           name="Noniplist" 
           component={Noniplist} 
           options={{ title: 'Noniplist' }} 
+        />
+         <Stack.Screen 
+          name="Secondnoniptable" 
+          component={Secondnoniptable} 
+          options={{ title: 'Secondnoniptable' }} 
         />
       </Stack.Navigator>
     </NavigationContainer>
