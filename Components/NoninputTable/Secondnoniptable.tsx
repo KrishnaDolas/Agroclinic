@@ -85,46 +85,46 @@ const Secondnoniptable: React.FC = () => {
   };
 
   const calculateWeeklyDoses = (totalNPK: number, totalNRequired: number) => {
-    const weeklyCalculations: WeeklyCalculation[] = []; // Define the type here
-
+    const weeklyCalculations: WeeklyCalculation[] = [];
+  
     // Week 1
     calculateFirstWeekDoses(totalNPK, totalNRequired, weeklyCalculations);
-    
+  
     // Week 2
     calculateSecondWeekDoses(totalNRequired, weeklyCalculations);
-
+  
     // Week 3
     calculateThirdWeekDoses(totalNRequired, weeklyCalculations);
-
+  
     // Week 4
     calculateFourthWeekDoses(totalNPK, totalNRequired, weeklyCalculations);
-
+  
     // Update weekly values
     setWeeklyValues(weeklyCalculations);
   };
-
-  // The week calculations remain unchanged
+  
   const calculateFirstWeekDoses = (totalNPK: number, totalNRequired: number, weeklyCalculations: WeeklyCalculation[]) => {
-    const firstWeekPK = totalNPK / 2; // 50% for first week
-    const nFromFirstWeek = (10 / 100) * firstWeekPK; // 10% N from 10:26:26
-
-    const totalRequiredN = 20; // For 200 kg of N (10%)
-    const remainingNFromUrea = Math.max(totalRequiredN - nFromFirstWeek, 0);
-
-    const ureaNeeded = (remainingNFromUrea * 100) / 46; // kg of urea needed
-
+    const pkAmount = totalNPK / 2; // 50% for first week
+    const pAmount = pkAmount * 0.5; // 50% P
+    const kAmount = pkAmount * 0.5; // 50% K
+    const nFromPK = (10 / 100) * pkAmount; // N from 10:26:26
+  
+    const requiredN = totalNRequired * 0.1; // 10% N needed
+    const remainingN = Math.max(requiredN - nFromPK, 0); // Remaining N needed from Urea
+    const ureaNeeded = (remainingN * 100) / 46; // kg of urea needed
+  
     weeklyCalculations.push({
       urea: ureaNeeded.toFixed(2),
       ureaBags: (ureaNeeded / 50).toFixed(2),
-      npk: firstWeekPK.toFixed(2),
-      npkBags: (firstWeekPK / 100).toFixed(2),
+      npk: pkAmount.toFixed(2),
+      npkBags: (pkAmount / 100).toFixed(2),
     });
   };
-
+  
   const calculateSecondWeekDoses = (totalNRequired: number, weeklyCalculations: WeeklyCalculation[]) => {
     const nRequired = totalNRequired * 0.4; // 40% N
     const ureaNeeded = (nRequired * 100) / 46; // kg of urea needed
-
+  
     weeklyCalculations.push({
       urea: ureaNeeded.toFixed(2),
       ureaBags: (ureaNeeded / 50).toFixed(2),
@@ -132,11 +132,11 @@ const Secondnoniptable: React.FC = () => {
       npkBags: (0).toFixed(2),
     });
   };
-
+  
   const calculateThirdWeekDoses = (totalNRequired: number, weeklyCalculations: WeeklyCalculation[]) => {
     const nRequired = totalNRequired * 0.1; // 10% N
     const ureaNeeded = (nRequired * 100) / 46; // kg of urea needed
-
+  
     weeklyCalculations.push({
       urea: ureaNeeded.toFixed(2),
       ureaBags: (ureaNeeded / 50).toFixed(2),
@@ -144,25 +144,24 @@ const Secondnoniptable: React.FC = () => {
       npkBags: (0).toFixed(2),
     });
   };
-
+  
   const calculateFourthWeekDoses = (totalNPK: number, totalNRequired: number, weeklyCalculations: WeeklyCalculation[]) => {
-    // 40% N, 50% P, 50% K
-    const requiredPK = 0.5 * totalNRequired; // 50% P and K needed from 10:26:26
-    const total10_26_26ForWeek4 = (requiredPK * 100) / 26; // Calculate kg of 10:26:26 needed
-    const nFrom10_26_26 = (10 / 100) * total10_26_26ForWeek4; // N from 10:26:26
-    const nRequired = totalNRequired * 0.4; // 40% N
-
-    const remainingNFromUrea = Math.max(nRequired - nFrom10_26_26, 0); // Remaining N needed from Urea
-    const ureaNeeded = (remainingNFromUrea * 100) / 46; // kg of urea needed
-
+    const pkAmount = totalNPK / 2; // 50% for the fourth week
+    const pAmount = pkAmount * 0.5; // 50% P
+    const kAmount = pkAmount * 0.5; // 50% K
+  
+    const nFromPK = (10 / 100) * pkAmount; // N from 10:26:26
+    const requiredN = totalNRequired * 0.4; // 40% N
+    const remainingN = Math.max(requiredN - nFromPK, 0); // Remaining N needed from Urea
+    const ureaNeeded = (remainingN * 100) / 46; // kg of urea needed
+  
     weeklyCalculations.push({
       urea: ureaNeeded.toFixed(2),
       ureaBags: (ureaNeeded / 50).toFixed(2),
-      npk: total10_26_26ForWeek4.toFixed(2),
-      npkBags: (total10_26_26ForWeek4 / 100).toFixed(2),
+      npk: pkAmount.toFixed(2),
+      npkBags: (pkAmount / 100).toFixed(2),
     });
   };
-
   const adjustLandValue = (adjustment: number) => {
     const currentValue = parseFloat(landValue);
     if (currentValue + adjustment >= 0) {
